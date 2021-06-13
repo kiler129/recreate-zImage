@@ -293,13 +293,13 @@ build_bzImage () {
   echo "Making final bzImage..."
 
   BUILD_USAGE=$("$1/arch/x86/boot/tools/build" 2>&1 || true)
-  if echo "$BUILD_USAGE" | grep -q 'build setup system [zoffset.h] [> image]'; then # Linux v3
+  if echo "$BUILD_USAGE" | grep -q -F 'build setup system [zoffset.h] [> image]'; then # Linux v3
     "$1/arch/x86/boot/tools/build" \
       "$1/arch/x86/boot/setup.bin" \
       "$1/arch/x86/boot/vmlinux.bin" \
       "$1/arch/x86/boot/zoffset.h" \
     > "$2" || (echo '[ERR]' ; return 1)
-  elif echo "$BUILD_USAGE" | grep -q 'build setup system zoffset.h image'; then # Linux v4-ish
+  elif echo "$BUILD_USAGE" | grep -q -F 'build setup system zoffset.h image'; then # Linux v4-ish
     "$1/arch/x86/boot/tools/build" \
       "$1/arch/x86/boot/setup.bin" \
       "$1/arch/x86/boot/vmlinux.bin" \
